@@ -151,4 +151,5 @@ var sudokuSolver = (function() {
 
 var emptyPositions = sudokuSolver.getEmptyPositions(sudokuMatrix);
 var test = sudokuSolver.solvePuzzle(sudokuMatrix,emptyPositions);
+
 console.log(test);
