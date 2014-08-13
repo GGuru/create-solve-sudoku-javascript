@@ -1,0 +1,53 @@
+/** partials (components) **/
+@import "partials/_reset.less";
+
+/** Default theme for the game **/
+@import "themes/default.less";
+
+/** Custom theme for the game **/
+@import "themes/yourdomain.less";
+
+
+
+body {
+	font-family: @body-font;
+	font-size: 62.5%;
+	background: @body-background;
+	width: 99%;
+}
+#sudokuWrapper {
+	margin: 10px auto;
+	width: 90%;
+}
+#displayNumbers {
+	background: @displayNumbers-pad;
+	display: inline-block;
+	height: 400px;
+	width: 15%;
+}
+#displayNumbers  div{
+	min-width: 40px;
+	min-height: 40px;
+	float: left;
+	text-align: center;
+	cursor: pointer;
+	border: @displayNumbers-border;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#displayNumbers div:nth-child(3n+1)  {
+	clear:both;	
+}
+.sudokuGrid {
+	float: left;
+	min-width: 100px;
+	min-height: 100px;
+	border: 1px Solid #FFFFFF;
+	text-align: center;
+	font-size: 40px;
+	color: #FFFFFF;
+}
+.wrapDown {
+	clear: both;
+}
