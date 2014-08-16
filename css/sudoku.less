@@ -22,6 +22,7 @@ html, body {
 
 }
 #sudokuWrapper {
+	position: relative;
 	margin: 5px 2px;	
 	width: 100%;
 	overflow: hidden;
@@ -84,12 +85,12 @@ html, body {
 }
 button {
 	background: #191919;
-    	border: 1px solid #FFFFFF;
+    border: 1px solid #FFFFFF;
 	color: #FFFFFF;
-    	padding: 4px;
+    padding: 4px;
 	cursor: pointer;
 	display: inline-block;
-	width: 32%;
+	width: 24%;
 	margin-top: 10px;
 	border-radius: 5px 5px;
 	vertical-align: middle;
@@ -111,4 +112,40 @@ button {
     min-height: 38px;
     padding-top: 8px;
 
+}
+
+#messagingContainer {
+	position: absolute;	
+	top: 50%;
+	left: 50%;
+	background: #FFFFFF;
+	color: #000;	
+	font-size: 2rem;
+	padding: 10px;
+	margin-left: -100px;
+	opacity: 1;
+	
+}
+
+.fade {
+    -webkit-animation: fade 5s;
+	-moz-animation: fade 5s;
+	-ms-animation: fade 5s;
+	visibility: hidden;
+    animation: fade 5s;
+    opacity: 0;
+ }
+/* -fail- */
+@-ms-keyframes fade {
+    from {opacity: 1; visibility: visible;}
+    to {opacity: 0; visibility: hidden;}
+}@-moz-keyframes fade {
+    from {opacity: 1; visibility: visible;}
+    to {opacity: 0; visibility: hidden;}
+}@-webkit-keyframes fade {
+    from {opacity: 1; visibility: visible;}
+    to {opacity: 0; visibility: hidden;}
+}@keyframes fade {
+    from {opacity: 1; visibility: visible;}
+    to {opacity: 0; visibility: hidden;}
 }
