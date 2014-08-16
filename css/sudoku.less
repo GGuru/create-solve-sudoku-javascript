@@ -9,45 +9,106 @@
 
 
 
-body {
+html, body {
 	font-family: @body-font;
 	font-size: 62.5%;
 	background: @body-background;
+
+}
+#pageWrapper {
 	width: 99%;
+	margin: 0 auto;
+	text-align: center;
+
 }
 #sudokuWrapper {
-	margin: 10px auto;
-	width: 90%;
+	margin: 5px 2px;	
+	width: 100%;
+	overflow: hidden;
+	@media screen and (min-width: 1230px) and (min-height: 550px)  {width: 50%;}
 }
 #displayNumbers {
-	background: @displayNumbers-pad;
-	display: inline-block;
-	height: 400px;
-	width: 15%;
+	background: @displayNumbers-pad;	
+	width: 100%;	
+	text-align: left;
+	padding: 12px;
+	clear: both;
+	margin: 0 2px;
+	@media screen and (min-width: 1230px) and (min-height: 550px)  {width: 50%;}
 }
-#displayNumbers  div{
-	min-width: 40px;
-	min-height: 40px;
+#displayNumbers  div.numberPad {
+	width: 8.5%;	
 	float: left;
 	text-align: center;
 	cursor: pointer;
 	border: @displayNumbers-border;
-	font-size: 20px;
-	font-weight: bold;
+	font-size: 4em;
+	font-size: 3rem;
+	margin-left: 4px;
 }
-
-#displayNumbers div:nth-child(3n+1)  {
+/**
+#displayNumbers div.numberPad:nth-child(3n+1)  {
 	clear:both;	
 }
+**/
 .sudokuGrid {
-	float: left;
-	min-width: 100px;
-	min-height: 100px;
+	float: left;	
 	border: 1px Solid #FFFFFF;
-	text-align: center;
-	font-size: 40px;
 	color: #FFFFFF;
+	cursor: pointer;	
+	width: 11.1%;
+	@media screen and (max-width: 420px) {font-size: 3rem;}
+	@media screen and (min-width: 421px) {font-size: 4rem;}
+	@media screen and (min-width: 621px) {font-size: 5rem;}
+	@media screen and (min-width: 821px) {font-size: 6rem;}
+	@media screen and (min-width: 1021px) {font-size: 7rem;}
+	@media screen and (min-width: 1221px) {font-size: 8rem;}
+	@media screen and (min-width: 1421px) {font-size: 9rem;}
+	@media screen and (min-width: 1621px) {font-size: 10rem;}
+	@media screen and (min-width: 1821px) {font-size: 11rem;}
+	@media screen and (min-width: 1921px) {font-size: 12rem;}
+	@media screen and (min-width: 1230px) and (min-height: 550px)  {font-size: 4rem;}
+	@media screen and (min-width: 1920px) and (min-height: 900px)  {font-size: 7rem;}
+	
 }
 .wrapDown {
 	clear: both;
+}
+
+.emptyCell {
+	background: @emptyCell-background;
+}
+
+.currentGrid {
+	background: @currentGrid-background;
+}
+button {
+	background: #191919;
+    	border: 1px solid #FFFFFF;
+	color: #FFFFFF;
+    	padding: 4px;
+	cursor: pointer;
+	display: inline-block;
+	width: 32%;
+	margin-top: 10px;
+	border-radius: 5px 5px;
+	vertical-align: middle;
+	height: 53px;
+}
+
+.buttonWrappers {
+	width: 100%;
+	clear: both;
+}
+
+.blurIt {
+	opacity: 0.5;
+}
+ 
+
+#displayNumbers div#clear.numberPad {
+	font-size: 1.5rem;
+    min-height: 38px;
+    padding-top: 8px;
+
 }
