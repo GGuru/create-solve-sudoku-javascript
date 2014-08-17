@@ -1,5 +1,6 @@
 /** partials (components) **/
 @import "partials/_reset.less";
+@import "partials/_button.less";
 
 /** Default theme for the game **/
 @import "themes/default.less";
@@ -83,25 +84,12 @@ html, body {
 .currentGrid {
 	background: @currentGrid-background;
 }
-button {
-	background: #191919;
-    border: 1px solid #FFFFFF;
-	color: #FFFFFF;
-    padding: 4px;
-	cursor: pointer;
-	display: inline-block;
-	width: 24%;
-	margin-top: 10px;
-	border-radius: 5px 5px;
-	vertical-align: middle;
-	height: 53px;
-}
-
+/** wrapper div for buttons **/
 .buttonWrappers {
 	width: 100%;
 	clear: both;
 }
-
+/** class to add to body when the game is successfully done or a solution is shown **/
 .blurIt {
 	opacity: 0.5;
 }
@@ -111,31 +99,44 @@ button {
 	font-size: 1.5rem;
     min-height: 38px;
     padding-top: 8px;
-
 }
 
+/** Error/success msg container **/
 #messagingContainer {
 	position: absolute;	
 	top: 50%;
-	left: 50%;
-	background: #FFFFFF;
-	color: #000;	
+	left: 50%;	
+	color: #000;
 	font-size: 2rem;
 	padding: 10px;
-	margin-left: -100px;
+	margin-left: -68px;
 	opacity: 1;
-	
+	visibility: hidden;
+	@media screen and (max-width: 621px) {font-size: 1.5rem;}
+	border-radius: 3px 3px;
+	width: 133px;
+	height: 133px;
+
+}
+.correct {
+	background: @correct-icon;
+}
+.wrong {
+	background: @wrong-icon;
 }
 
+
+/** Validation message animation styles **/
+
 .fade {
-    -webkit-animation: fade 5s;
+	-webkit-animation: fade 5s;
 	-moz-animation: fade 5s;
-	-ms-animation: fade 5s;
+	-ms-animation: fade 5s;	
 	visibility: hidden;
-    animation: fade 5s;
-    opacity: 0;
+    	animation: fade 5s;	
+    	opacity: 0;
  }
-/* -fail- */
+
 @-ms-keyframes fade {
     from {opacity: 1; visibility: visible;}
     to {opacity: 0; visibility: hidden;}
