@@ -1,5 +1,18 @@
+/**
+	sudoku solver module. It has methods to validate the board at any given instance.
+	It has a solver as well that provides a solved version of the puzzle.
+**/
+
 var sudokuSolver = (function() {
 
+	/**
+		@method checkRow - checks the entire row to find the passed value
+		@param {2d Array} Matrix. In case of validation, it is the current instance of sudoku puzzle. 
+				In case of solver it is the original puzzle that is displayed.
+		@param {int} row Position of current value in row
+		@param {int} value Possible value for Matrix at this row
+			
+	**/
 	var checkRow = function (Matrix, row, value) {			
 		var len = Matrix[row].length;
 		for(var i = 0; i < len; i++) {			
@@ -9,6 +22,14 @@ var sudokuSolver = (function() {
 		}	
 		return true;
 	};	
+	/**
+		@method checkColumn - checks the entire column to find the passed value
+		@param {2d Array} Matrix. In case of validation, it is the current instance of sudoku puzzle. 
+				In case of solver it is the original puzzle that is displayed.
+		@param {int} column Position of current value in column
+		@param {int} value Possible value for Matrix at this column
+			
+	**/
 	var checkColumn = function (Matrix, column, value) {
 		var len = Matrix.length;
 		for(var i = 0; i < len; i++) {
@@ -18,6 +39,15 @@ var sudokuSolver = (function() {
 		}  
 		return true;
 	};
+	/**
+		@method checkMatrix  checks 3x3 matrix to find the passed value.
+		@param {2d Array} sudokuGrid. In case of validation, it is the current instance of sudoku puzzle. 
+				In case of solver it is the original puzzle that is displayed.
+		@param {int} i Position of current value as row
+		@param {int} j Position of current value as column
+		@param {int} value Possible value for Matrix at this position
+			
+	**/	
 	var checkMatrix = function (sudokuGrid, i, j, value) {
 		
 		var flag = true;	
@@ -74,7 +104,17 @@ var sudokuSolver = (function() {
 		return flag;	
 
 	};
-	return {	
+	return {
+	
+		/**
+			@method validateBoard  checks if the passed value is suitable for the passed positions.
+			@param {2d Array} sudokuGrid. In case of validation, it is the current instance of sudoku puzzle. 
+				In case of solver it is the original puzzle that is displayed.
+			@param {int} row Position of current value as row
+			@param {int} column Position of current value as column
+			@param {int} value Possible value for Matrix at this position.			
+		**/	
+		
 		validateBoard: function(Matrix, row, column, value) {		
 			if(checkRow(Matrix, row, value)) {
 				if(checkColumn(Matrix, column, value)) {
@@ -85,6 +125,10 @@ var sudokuSolver = (function() {
 			}			
 			return false;
 		},
+		/**
+			@method getEmptyPositions  returns empty or positions holding 0 in a 2d sudoku array.
+			@param {2d Array} puzzleMatrix.
+		**/	
 		getEmptyPositions: function(puzzleMatrix) {
 			var emptyPositions = [];
 			var puzzleMatrixLen = puzzleMatrix.length, puzzleMatrixSubLen;
@@ -97,12 +141,15 @@ var sudokuSolver = (function() {
 				}
 			}  
 			return emptyPositions;
-		},	
-		solvePuzzle: function(Matrix, emptyPositions, shouldNotBeEqualTo) {
+		},
+		/**
+			@method solvePuzzle  returns solved 2d array with the given unsolved array and its empty positions.
+			@param {2d Array} Matrix.
+		**/	
+		solvePuzzle: function(Matrix, emptyPositions) {
 			
 			var i, flag, row, column, value;
-			for(i = 0; i < emptyPositions.length;) {	
-				//console.log(i);
+			for(i = 0; i < emptyPositions.length;) {				
 				row =  emptyPositions[i][0];
 				column =  emptyPositions[i][1];
 				
@@ -110,7 +157,7 @@ var sudokuSolver = (function() {
 				flag = false;
 						
 				while (value <= 9) {
-					if(this.validateBoard(Matrix, row, column, value) === true && value !== shouldNotBeEqualTo) {
+					if(this.validateBoard(Matrix, row, column, value) === true ) {
 						Matrix[row][column] = value;
 						flag = true;
 						break;						
@@ -139,8 +186,23 @@ var sudokuSolver = (function() {
 
 )();
 
+/**
+		Module to create puzzles. It works in the following algorithm
+		create a sudoku grid with 9 random numbers 1-9
+		Pass the grid to solver and find a solutions
+		Dig holes in the solved array at random positions. The below function does an attempt to empty 45 cells.
+		
+
+**/
+
 var createSudoku = (function () {
 
+
+	/**
+		@method rowColCombination It is utility method used in generation.
+		@param {string} separator "x" here.
+
+	**/
 	var rowColCombination = function (separator) {
 			var randomRow = utils.randomNumber(8,0);
 			var randomColumn = utils.randomNumber(8,0);
@@ -153,6 +215,9 @@ var createSudoku = (function () {
 	return {
 		limit: 9,		
 		difficultyLevel: 45,
+		/**
+			@method generateSudoku it works as specified above
+		**/
 		generateSudoku: function() {		
 			var newPuzzle =  [
 				  [0,0,0,0,0,0,0,0,0],
@@ -173,7 +238,7 @@ var createSudoku = (function () {
 				var randomRowColCombination = rowColCombination("x");
 				if(positionsArray.indexOf(randomRowColCombination["stringCombination"]) == -1) {
 					positionsArray.push(randomRowColCombination["stringCombination"]);
-					var randNumber = utils.randomNumber(9,1);					
+					var randNumber = utils.randomNumber(9,1);
 					while(sudokuSolver.validateBoard(newPuzzle, randomRowColCombination["indexCombination"][0], randomRowColCombination["indexCombination"][1], randNumber) === false) {
 						randNumber = utils.randomNumber(9,1);
 					}
@@ -188,7 +253,27 @@ var createSudoku = (function () {
 				solMatrix[randomRowColCombination["indexCombination"][0]][randomRowColCombination["indexCombination"][1]] = 0;				
 				c++;
 			}
-			return solMatrix;
+			
+		return solMatrix;
+		
+		/** 
+			uncomment the below line and comment the previous return statement to de-couple the sudoku generation logic from the code and use a
+			hardcoded default puzzle.
+		**/
+		/**		
+		return [
+		  [5,3,0,0,7,0,0,0,0],
+		  [6,0,0,1,9,5,0,0,0],
+		  [0,9,8,0,0,0,0,6,0],
+		  [8,0,0,0,6,0,0,0,3],
+		  [4,0,0,8,0,3,0,0,1],
+		  [7,0,0,0,2,0,0,0,6],
+		  [0,6,0,0,0,0,2,8,0],
+		  [0,0,0,4,1,9,0,0,5],
+		  [0,0,0,0,8,0,0,7,9]
+		];
+		**/
+		
 		}
 	
 	}
@@ -198,13 +283,18 @@ var createSudoku = (function () {
 
 var displayUIRegisterEvents = (function() {		
 	
-	
+	/**	
+		@method displaySolution Displays the solution grid.
+		@param {2d array} solutionMatrix
+		@param {2d array} emptyPos Empty positions in the puzzle
+	**/
 	var displaySolution = function(solutionMatrix, emptyPos) {
 		for(var k =0, len = emptyPos.length; k < len; k++) {
 			$("#"+emptyPos[k][0]+"x"+emptyPos[k][1]).text(solutionMatrix[emptyPos[k][0]][emptyPos[k][1]]);
 		}
 	};
 	return {
+		//Id constants for registering and invoking handlers
 		sudokuWrapperId:"sudokuWrapper", 
 		numberKeysWrapperId:"displayNumbers",
 		resetBtnId:"resetBtn",
@@ -213,6 +303,11 @@ var displayUIRegisterEvents = (function() {
 		messagingContainer: "messagingContainer",
 		newGameId: "newGame",
 		
+		/**	
+			@method displayPuzzle Displays the puzzle grid.
+			@param {2d array} solutionMatrix
+			@param {2d array} emptyPositions Empty positions in the puzzle
+		**/
 		displayPuzzle: function(sudokuMatrix, emptyPositions) {		
 				var runningsudokuMatrix = $.extend(true, [], sudokuMatrix);
 				var prevElement;	
@@ -241,7 +336,7 @@ var displayUIRegisterEvents = (function() {
 				$("#sudokuWrapper").append(fragment);
 				
 				var self = this;
-				//RegisterEvents
+				//Registering Events
 				$(document).on("click","#"+self.sudokuWrapperId,function(e) {
 					var clickedNumberElem = $(e.target);
 					if(clickedNumberElem.hasClass("sudokuGrid")) {
@@ -273,7 +368,7 @@ var displayUIRegisterEvents = (function() {
 					}
 					else {
 						
-						var clonedMsgElem = $("#"+self.messagingContainer).removeClass('fade').clone(true);
+						var clonedMsgElem = $("#"+self.messagingContainer).removeClass('fade').removeClass("correct").removeClass("wrong").clone(true);
 						$("#"+self.messagingContainer).remove();
 						$("#"+self.sudokuWrapperId).append(clonedMsgElem);						
 						
@@ -297,9 +392,8 @@ var displayUIRegisterEvents = (function() {
 											flag = false;							
 										}
 										runningsudokuMatrix[emptyPositions[k][0]][emptyPositions[k][1]] = tempVar;						
-										if(!flag) {
-										
-											$("#"+self.messagingContainer).text("The board is currently Invalid").removeClass("fade").addClass("fade");
+										if(!flag) {										
+											$("#"+self.messagingContainer).removeClass("fade").addClass("fade wrong");
 											break;
 										}					
 									}
@@ -308,12 +402,12 @@ var displayUIRegisterEvents = (function() {
 									}
 									
 							}
-							if(flag) {
-								$("#"+self.messagingContainer).text("The board is currently valid").removeClass("fade").addClass("fade");								
+							if(gameCompleted && flag) {
+								$("#"+self.messagingContainer).removeClass("fade").addClass("fade correct");
+								self.resetUI();																
 							}
-							if(gameCompleted) {
-								$("#"+self.messagingContainer).text("Congratulations. The game is completed").removeClass("fade").addClass("fade");
-								self.resetUI();
+							else if(flag) {
+								$("#"+self.messagingContainer).removeClass("fade").addClass("fade correct");
 							}
 						}
 						else if(clickedNumberElem.attr("id") === self.showSolutionBtnId) {
@@ -333,11 +427,14 @@ var displayUIRegisterEvents = (function() {
 				});				
 				
 		},
+		/**
+			@method resetUI method to disable UI events once the solution is displayed.
+		**/
 		resetUI: function() {			
 			$(document).off("click","#"+this.sudokuWrapperId);
 			$(document).off("click","#"+this.numberKeysWrapperId);
 			$('body').addClass('blurIt');		
-		}		
+		}
 	}
 })();
 
@@ -356,6 +453,9 @@ var runningsudokuMatrix = [
 ];
 **/
 
+/**
+Initialization module. It is also invoked with on click of new game button in UI
+**/
 
 var createAndDispPuzzle = (function() {
 
@@ -363,6 +463,7 @@ return {
 	init: function () {
 		var sudokuMatrix = createSudoku.generateSudoku();
 		var emptyPositions = sudokuSolver.getEmptyPositions(sudokuMatrix);
+
 		displayUIRegisterEvents.displayPuzzle(sudokuMatrix, emptyPositions);
 	}
 }
