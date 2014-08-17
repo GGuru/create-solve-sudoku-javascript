@@ -148,8 +148,9 @@ var sudokuSolver = (function() {
 		**/	
 		solvePuzzle: function(Matrix, emptyPositions) {
 			
-			var i, flag, row, column, value;
-			for(i = 0; i < emptyPositions.length;) {				
+			var i, flag, row, column, value, lengthPos;			
+			lengthPos = emptyPositions.length;
+			for(i = 0; i < lengthPos;) {				
 				row =  emptyPositions[i][0];
 				column =  emptyPositions[i][1];
 				
